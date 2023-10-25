@@ -7,9 +7,9 @@ function checkOrgAllowedSchema(orgDid, schemaId) {
   : false;
 }
 
-fact = {
-  orgDid: "def456",
-  schemaId: "schemaX",
+let fact = {
+  orgDid: "",
+  schemaId: "",
 };
 
 var R = new RuleEngine();
@@ -27,10 +27,28 @@ var issuanceRule = {
 
 R.register(issuanceRule);
 
-R.execute(fact, function (data) {
-  if (data.result !== false) {
-    console.log("Valid issuance");
-  } else {
-    console.log("Blocked Reason:" + data.reason);
-  }
-});
+async function getOrgDid() {
+  return new Promise((resolve, reject) => {
+    resolve("def456");
+  });
+}
+
+async function getSchemaId() {
+  return new Promise((resolve, reject) => {
+    resolve("schemaY");
+  });
+}
+
+async function main() {
+  fact.orgDid = await getOrgDid();
+  fact.schemaId = await getSchemaId();
+  R.execute(fact, function (data) {
+    if (data.result !== false) {
+      console.log("Valid issuance");
+    } else {
+      console.log("Blocked Reason:" + data.reason);
+    }
+  });
+}
+
+main();
