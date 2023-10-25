@@ -1,5 +1,6 @@
 const { RuleEngine } = require("node-rules");
 const { config:issuanceConfig } = require("./rules-config/issuance.config");
+const prompt = require('prompt-sync')();
 
 function checkOrgAllowedSchema(orgDid, schemaId) {
   return issuanceConfig[orgDid] != undefined ? 
@@ -29,13 +30,15 @@ R.register(issuanceRule);
 
 async function getOrgDid() {
   return new Promise((resolve, reject) => {
-    resolve("def456");
+    let result = prompt("orgDid: ");
+    resolve(result);
   });
 }
 
 async function getSchemaId() {
   return new Promise((resolve, reject) => {
-    resolve("schemaY");
+    let result = prompt("schemaId: ");
+    resolve(result);
   });
 }
 
